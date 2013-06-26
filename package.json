@@ -1,0 +1,25 @@
+{
+    "name": "ipmi",
+    "description": "IPMI binding for Node.js",
+    "keywords": ["network"],
+    "version": "0.0.1",
+    "homepage": "https://github.com/elitak/node-ipmi",
+    "author": "Eric Litak <elitak@gmail.com>",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/elitak/node-ipmi.git"
+    },
+    "bugs": {
+        "email": "elitak@gmail.com",
+        "url": "https://github.com/elitak/node-ipmi.git"
+    },
+    "dependencies": {},
+    "devDependencies": {
+    },
+    "contributors": [
+        { "name": "Eric Litak", "email": "elitak@gmail.com" }
+    ],
+    "main": "index",
+    "gypfile": true,
+    "engines": { "node": ">= 0.10.12" }
+}
