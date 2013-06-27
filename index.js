@@ -2,7 +2,7 @@
 var ipmi = new require('./build/Release/ipmi');
 
 module.exports = function(){
-	return ipmi.init();
+	return new ipmi.Ipmi;
 }
 for(var k in ipmi){
 	if(k !== 'NodeIpmi'){
