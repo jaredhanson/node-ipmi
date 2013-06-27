@@ -3,6 +3,8 @@
 using namespace node;
 using namespace v8;
 
+int verbose = 0;
+
 NodeIpmi::NodeIpmi(ipmi_intf *ptr): interface(ptr) {}
 NodeIpmi::~NodeIpmi() {
 	interface->close(interface);
@@ -10,7 +12,7 @@ NodeIpmi::~NodeIpmi() {
 
 V8_ESCTOR(NodeIpmi) { V8_CTOR_NO_JS }
 
-NODE_ETYPE(NodeIpmi, "NodeIpmiUtil") {
+NODE_ETYPE(NodeIpmi, "NodeIpmi") {
 	//Local<Function> func = templ->GetFunction();
 	target->Set(v8u::Symbol("init"), v8u::Func(Init)->GetFunction());
 } NODE_TYPE_END()
@@ -32,3 +34,7 @@ V8_SCB(NodeIpmi::Init) {
 
 	return (new NodeIpmi(intf))->Wrapped();
 }
+
+NODE_DEF_MAIN() {
+	NodeIpmi::init(target);
+} NODE_DEF_MAIN_END(ipmi)
