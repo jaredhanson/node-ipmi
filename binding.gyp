@@ -3,9 +3,10 @@
     {
       'target_name': 'ipmi',
       'sources': [
+        'src/NodeMain.cpp',
         'src/NodeIpmi.cpp',
         'src/NodeIpmiPower.cpp',
-        'src/NodeMain.cpp',
+        'src/NodeIpmiUser.cpp',
         # definitely
         'deps/ipmitool/lib/ipmi_strings.c',
         'deps/ipmitool/src/plugins/ipmi_intf.c',
@@ -50,21 +51,21 @@
          'deps/ipmitool/lib/helper.c',
         #'deps/ipmitool/lib/ipmi_pef.c',
         #'deps/ipmitool/src/ipmishell.c',
-        #'deps/ipmitool/src/plugins/lanplus/lanplus_strings.c',
-        #'deps/ipmitool/src/plugins/lanplus/lanplus_crypt.c',
-        #'deps/ipmitool/src/plugins/lanplus/lanplus_dump.c',
-        #'deps/ipmitool/src/plugins/lanplus/lanplus.c',
-        #'deps/ipmitool/src/plugins/lanplus/lanplus_crypt_impl.c',
+         'deps/ipmitool/src/plugins/lanplus/lanplus_strings.c',
+         'deps/ipmitool/src/plugins/lanplus/lanplus_crypt.c',
+         'deps/ipmitool/src/plugins/lanplus/lanplus_dump.c',
+         'deps/ipmitool/src/plugins/lanplus/lanplus.c',
+         'deps/ipmitool/src/plugins/lanplus/lanplus_crypt_impl.c',
          'deps/ipmitool/src/plugins/serial/serial_basic.c',
          'deps/ipmitool/src/plugins/serial/serial_terminal.c',
          'deps/ipmitool/src/plugins/lan/md5.c',
         #'deps/ipmitool/src/plugins/bmc/bmc.c',
          'deps/ipmitool/src/plugins/imb/imb.c',
         #'deps/ipmitool/src/plugins/imb/imbapi.c',
+         'deps/ipmitool/src/plugins/free/free.c',
 
-        # compile probs
+        # compile probs maybe
         #'deps/ipmitool/src/plugins/lipmi/lipmi.c',
-        #'deps/ipmitool/src/plugins/free/free.c',
 
         # need exactly one of these
         #'deps/ipmitool/src/ipmievd.c',

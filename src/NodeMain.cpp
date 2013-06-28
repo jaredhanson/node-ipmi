@@ -9,6 +9,7 @@ NODE_DEF_MAIN() {
     NodeIpmi::init(target);
     // maybe this should be made inaccessible from ipmi.NodeIpmiPower in js
     NodeIpmiPower::init(target);
+    NodeIpmiUser::init(target);
     /*
        target->Set(
        v8u::Symbol("myversion"),

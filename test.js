@@ -25,3 +25,4 @@ console.log(i.bootdev);
 console.log(i.power.status);
 //console.log(i.power.off());
 console.log(i.power.status);
+console.log(i.user.list);

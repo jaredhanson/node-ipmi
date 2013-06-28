@@ -17,16 +17,23 @@ NodeIpmi::NodeIpmi(const char *interface_name) {
         V8_THROW(v8u::Err(msg.str().c_str()));
     }
     power = new NodeIpmiPower(interface);
+    user = new NodeIpmiUser(interface);
 }
 
 NodeIpmi::~NodeIpmi() {
     delete power;
+    delete user;
     interface->close(interface);
 }
 
 V8_EGET(NodeIpmi, GetPower) {
     NodeIpmi* self = Unwrap(info.Holder());
     V8_RET(self->power->Wrapped());
+} V8_GET_END()
+
+V8_EGET(NodeIpmi, GetUser) {
+    NodeIpmi* self = Unwrap(info.Holder());
+    V8_RET(self->user->Wrapped());
 } V8_GET_END()
 
 V8_EGET(NodeIpmi, GetHostname) {
