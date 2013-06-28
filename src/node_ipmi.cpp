@@ -72,7 +72,7 @@ V8_ESET(NodeIpmi, SetUsername) {
 
 V8_EGET(NodeIpmi, GetPassword) {
     NodeIpmi* self = Unwrap(info.Holder());
-    V8_RET(String::New((const char *)self->interface->session->password));
+    V8_RET(String::New((const char *)self->interface->session->authcode));
 } V8_GET_END()
 
 V8_ESET(NodeIpmi, SetPassword) {
