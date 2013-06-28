@@ -52,6 +52,11 @@ V8_CB(NodeIpmi::GetChassisPowerStatus) {
         String::Utf8Value interface_name(args[0]->ToString());
 
 	ipmi_intf *interface = ipmi_intf_load(*interface_name);
+        if (interface == NULL) {
+         std::stringstream msg;
+         msg << "Error loading interface named \"" << *interface_name << "\"";
+         V8_STHROW(v8u::Err(msg.str().c_str()));
+        }
   ipmi_intf_session_set_hostname(interface, "192.168.0.30");
   ipmi_intf_session_set_username(interface, "root");
   ipmi_intf_session_set_password(interface, "calvin");
