@@ -3,7 +3,7 @@
 extern "C" {
 #include "ipmitool/ipmi_chassis.h"
 }
-V8_POST_TYPE(NodeIpmi)
+V8_POST_TYPE(NodeIpmi);
 
 using namespace node;
 using namespace v8;
@@ -81,17 +81,17 @@ V8_EGET(NodeIpmi, GetBootdev) {
     // this logic is copied from ipmitool
     switch( ((rsp->data[3]>>2)&0x0f))
     {  
-        case 0: printf("No override\n"); break;
-        case 1: printf("Force PXE\n"); break;
-        case 2: printf("Force Boot from default Hard-Drive\n"); break;
-        case 3: printf("Force Boot from default Hard-Drive, request Safe-Mode\n"); break;
-        case 4: printf("Force Boot from Diagnostic Partition\n"); break;
-        case 5: printf("Force Boot from CD/DVD\n"); break;
-        case 6: printf("Force Boot into BIOS Setup\n"); break;
-        case 15: printf("Force Boot from Floppy/primary removable media\n"); break;
-        default: printf("Flag error\n"); break;
+    case 0: printf("No override\n"); break;
+    case 1: printf("Force PXE\n"); break;
+    case 2: printf("Force Boot from default Hard-Drive\n"); break;
+    case 3: printf("Force Boot from default Hard-Drive, request Safe-Mode\n"); break;
+    case 4: printf("Force Boot from Diagnostic Partition\n"); break;
+    case 5: printf("Force Boot from CD/DVD\n"); break;
+    case 6: printf("Force Boot into BIOS Setup\n"); break;
+    case 15: printf("Force Boot from Floppy/primary removable media\n"); break;
+    default: printf("Flag error\n"); break;
     }
-    */
+     */
     V8_RET(String::New("TODO"));
 } V8_GET_END()
 
