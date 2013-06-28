@@ -13,6 +13,9 @@
         "email": "elitak@gmail.com",
         "url": "https://github.com/elitak/node-ipmi.git"
     },
+    "scripts": {
+        "preinstall": "sed -i 's/^static //' deps/ipmitool/lib/ipmi_user.c; node-gyp rebuild"
+    },
     "dependencies": {},
     "devDependencies": {
     },

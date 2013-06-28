@@ -37,7 +37,7 @@
         #'deps/ipmitool/lib/ipmi_fru.c',
          'deps/ipmitool/lib/ipmi_oem.c',
         #'deps/ipmitool/lib/ipmi_gendev.c',
-        #'deps/ipmitool/lib/ipmi_user.c',
+         'deps/ipmitool/lib/ipmi_user.c',
         #'deps/ipmitool/lib/ipmi_dcmi.c',
         #'deps/ipmitool/lib/ipmi_fwum.c',
          'deps/ipmitool/lib/log.c',
