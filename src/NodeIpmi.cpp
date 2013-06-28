@@ -3,6 +3,7 @@
 extern "C" {
 #include "ipmitool/ipmi_chassis.h"
 }
+V8_POST_TYPE(NodeIpmi)
 
 using namespace node;
 using namespace v8;

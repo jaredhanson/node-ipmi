@@ -41,5 +41,4 @@ class NodeIpmi : public node::ObjectWrap {
       ipmi_intf *interface;
       NodeIpmiPower *power;
 };
-V8_POST_TYPE(NodeIpmi)
 #endif
