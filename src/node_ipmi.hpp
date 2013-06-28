@@ -5,6 +5,23 @@ extern "C" {
 
 using namespace v8;
 
+class NodeIpmiPower : public node::ObjectWrap {
+    public:
+        NodeIpmiPower(ipmi_intf *interface);
+        V8_SCTOR() { V8_CTOR_NO_JS }
+        static V8_SCB(On);
+        static V8_SCB(Off);
+        V8_SGET(GetStatus);
+        NODE_TYPE(NodeIpmiPower, "NodeIpmiPower") {
+            V8_DEF_CB("on", On);
+            V8_DEF_CB("off", Off);
+            V8_DEF_GET("status", GetStatus);
+        } NODE_TYPE_END()
+    private:
+        ipmi_intf *interface;
+};
+V8_POST_TYPE(NodeIpmiPower)
+
 class NodeIpmi : public node::ObjectWrap {
    public:
       NodeIpmi(const char *interface_name);
@@ -16,7 +33,6 @@ class NodeIpmi : public node::ObjectWrap {
          V8_WRAP(new NodeIpmi(*interface_name));
       } V8_CTOR_END()
 
-      static V8_SCB(GetChassisPowerStatus);
       static V8_SCB(LoadInterface);
       V8_SGET(GetHostname);
       V8_SSET(SetHostname);
@@ -24,15 +40,19 @@ class NodeIpmi : public node::ObjectWrap {
       V8_SSET(SetUsername);
       V8_SGET(GetPassword);
       V8_SSET(SetPassword);
+      V8_SGET(GetBootdev);
+      V8_SSET(SetBootdev);
+      V8_SGET(GetPower);
 
       NODE_TYPE(NodeIpmi, "NodeIpmi") {
-         V8_DEF_CB("getChassisPowerStatus", GetChassisPowerStatus);
          V8_DEF_ACC("hostname", GetHostname, SetHostname);
          V8_DEF_ACC("username", GetUsername, SetUsername);
          V8_DEF_ACC("password", GetPassword, SetPassword);
+         V8_DEF_ACC("bootdev", GetBootdev, SetBootdev);
+         V8_DEF_GET("power", GetPower);
       } NODE_TYPE_END()
    private:
       ipmi_intf *interface;
+      NodeIpmiPower *power;
 };
 V8_POST_TYPE(NodeIpmi)
-
