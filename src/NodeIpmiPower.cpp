@@ -30,14 +30,16 @@ V8_EGET(NodeIpmiPower, GetStatus) {
     }
 } V8_GET_END()
 
-V8_CB(NodeIpmiPower::On) {
-    NodeIpmiPower *self = Unwrap(args.This());
-    int rc = ipmi_chassis_power_control(self->interface, IPMI_CHASSIS_CTL_POWER_UP);
-    V8_RET(Integer::New(rc));
-} V8_CB_END()
+#define POWEROP(NAME, BYTE) \
+    V8_CB(NodeIpmiPower::NAME) { \
+        NodeIpmiPower *self = Unwrap(args.This()); \
+        int rc = ipmi_chassis_power_control(self->interface, BYTE); \
+        V8_RET(Integer::New(rc)); \
+    } V8_CB_END()
 
-V8_CB(NodeIpmiPower::Off) {
-    NodeIpmiPower *self = Unwrap(args.This());
-    int rc = ipmi_chassis_power_control(self->interface, IPMI_CHASSIS_CTL_POWER_DOWN);
-    V8_RET(Integer::New(rc));
-} V8_CB_END()
+POWEROP(On,    IPMI_CHASSIS_CTL_POWER_UP);
+POWEROP(Off,   IPMI_CHASSIS_CTL_POWER_DOWN);
+POWEROP(Cycle, IPMI_CHASSIS_CTL_POWER_CYCLE);
+POWEROP(Reset, IPMI_CHASSIS_CTL_HARD_RESET);
+POWEROP(Diag,  IPMI_CHASSIS_CTL_PULSE_DIAG);
+POWEROP(Soft,  IPMI_CHASSIS_CTL_ACPI_SOFT);
