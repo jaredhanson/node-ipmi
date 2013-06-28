@@ -3,7 +3,9 @@
     {
       'target_name': 'ipmi',
       'sources': [
-        'src/node_ipmi.cpp',
+        'src/NodeIpmi.cpp',
+        'src/NodeIpmiPower.cpp',
+        'src/NodeMain.cpp',
         # definitely
         'deps/ipmitool/lib/ipmi_strings.c',
         'deps/ipmitool/src/plugins/ipmi_intf.c',
