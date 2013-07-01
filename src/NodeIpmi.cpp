@@ -4,6 +4,7 @@
 extern "C" {
 #include "ipmitool/ipmi_chassis.h"
 #include "ipmitool/ipmi_user.h"
+#include "lanplus.h"
 int ipmi_get_user_access(struct ipmi_intf *intf, uint8_t channel_number, uint8_t user_id, struct user_access_rsp *user_access);
 int ipmi_get_user_name(struct ipmi_intf *intf, uint8_t user_id, char *user_name);
 }
@@ -118,7 +119,7 @@ V8_EGET(NodeIpmi, GetUsers) {
     Handle<Array> list = Array::New();
     struct user_access_rsp access;
 
-    int rc = ipmi_get_user_access(self->interface, 0xE, 1, &access);
+    int rc = ipmi_get_user_access(self->interface, IPMI_LAN_CHANNEL_E, 1, &access);
 
     int ndx = 0;
     for (int id = 1; id <= access.maximum_ids; id++) {

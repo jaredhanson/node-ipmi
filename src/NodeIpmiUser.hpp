@@ -18,11 +18,15 @@ class NodeIpmiUser : public node::ObjectWrap {
         V8_SSET(SetPassword);
         V8_SGET(GetEnabled);
         V8_SSET(SetEnabled);
+        V8_SGET(GetPrivilegeLevel);
+        V8_SSET(SetPrivilegeLevel);
+
         NODE_TYPE(NodeIpmiUser, "NodeIpmiUser") {
             V8_DEF_GET("id", GetId);
             V8_DEF_ACC("name", GetName, SetName);
             V8_DEF_ACC("password", GetPassword, SetPassword);
             V8_DEF_ACC("enabled", GetEnabled, SetEnabled);
+            V8_DEF_ACC("privilegeLevel", GetPrivilegeLevel, SetPrivilegeLevel);
         } NODE_TYPE_END()
     private:
         ipmi_intf *interface;

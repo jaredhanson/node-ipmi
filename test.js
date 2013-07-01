@@ -39,6 +39,13 @@ for (var ndx=0; ndx < ipmi.users.length; ndx++) {
 console.log(ipmi.users[3])
 console.log(ipmi.users[3].name = "test")
 console.log(ipmi.users[3].password = "testfoo")
+
 console.log(ipmi.users[3].enabled)
 console.log(ipmi.users[3].enabled = false)
+console.log(ipmi.users[3].enabled)
 console.log(ipmi.users[3].enabled = true)
+console.log(ipmi.users[3].enabled)
+
+console.log(ipmi.users[3].privilegeLevel)
+console.log(ipmi.users[3].privilegeLevel=2)
+console.log(ipmi.users[3].privilegeLevel)

@@ -2,6 +2,7 @@
 #include "NodeIpmiUser.hpp"
 V8_POST_TYPE(NodeIpmiUser);
 extern "C" {
+#include "lanplus.h"
 #include "ipmitool/ipmi_user.h"
 // XXX from ipmi_user.c (not in its header file)
 #define IPMI_PASSWORD_DISABLE_USER  0x00
@@ -12,6 +13,7 @@ int ipmi_get_user_access(struct ipmi_intf *intf, uint8_t channel_number, uint8_t
 int ipmi_get_user_name(struct ipmi_intf *intf, uint8_t user_id, char *user_name);
 int ipmi_user_set_username( struct ipmi_intf *intf, uint8_t user_id, const char *name);
 int ipmi_user_set_password( struct ipmi_intf * intf, uint8_t user_id, uint8_t operation, const char *password, int is_twenty_byte_password);
+int ipmi_user_set_userpriv(struct ipmi_intf *intf, uint8_t channel, uint8_t user_id, const unsigned char privLevel);
 }
 
 
@@ -71,5 +73,23 @@ V8_ESET(NodeIpmiUser, SetEnabled) {
     }
     int op = value->ToBoolean()->Value() ? IPMI_PASSWORD_ENABLE_USER : IPMI_PASSWORD_DISABLE_USER;
     int rc = ipmi_user_set_password(self->interface, self->id, op, NULL, false);
-    if (rc) V8_THROW(v8u::Err("Error enabling or disabling user"));
+    if (rc) {
+        V8_THROW(v8u::Err("Error enabling or disabling user"));
+    }
+} V8_SET_END()
+
+V8_EGET(NodeIpmiUser, GetPrivilegeLevel) {
+    NodeIpmiUser *self = Unwrap(info.Holder());
+    V8_RET(String::New("<Not Implemented>"));
+} V8_GET_END()
+
+V8_ESET(NodeIpmiUser, SetPrivilegeLevel) {
+    NodeIpmiUser *self = Unwrap(info.Holder());
+    if (!value->IsUint32() || value->ToUint32()->Value() > 0x0f) {
+        V8_THROW(v8u::Err("Value must be an integer within the range of [0,15]"));
+    }
+    int rc = ipmi_user_set_userpriv(self->interface, IPMI_LAN_CHANNEL_E, self->id, value->ToUint32()->Value());
+    if (rc) {
+        V8_THROW(v8u::Err("Error setting user's privilege level"));
+    }
 } V8_SET_END()

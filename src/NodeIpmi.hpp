@@ -19,7 +19,6 @@ class NodeIpmi : public node::ObjectWrap {
             V8_WRAP(new NodeIpmi(*interface_name));
         } V8_CTOR_END()
 
-        static V8_SCB(LoadInterface);
         V8_SGET(GetHostname);
         V8_SSET(SetHostname);
         V8_SGET(GetUsername);

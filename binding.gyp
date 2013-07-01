@@ -74,7 +74,8 @@
       'include_dirs': [
         'deps/v8u',
         'deps/ipmitool/include',
-        'deps/ipmitool' # for config.h FIXME find out what in here is needed to avoid segfaults
+        'deps/ipmitool', # for config.h FIXME find out what in here is needed to avoid segfaults
+        'deps/ipmitool/src/plugins/lanplus', # for lanplus.h:IPMI_LAN_CHANNEL_E
       ],
       'cflags_cc!': [ '-fno-exceptions' ],
       'conditions': [
