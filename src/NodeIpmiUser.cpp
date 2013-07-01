@@ -16,7 +16,6 @@ int ipmi_user_set_password( struct ipmi_intf * intf, uint8_t user_id, uint8_t op
 int ipmi_user_set_userpriv(struct ipmi_intf *intf, uint8_t channel, uint8_t user_id, const unsigned char privLevel);
 }
 
-
 using namespace node;
 using namespace v8;
 
@@ -86,7 +85,7 @@ V8_EGET(NodeIpmiUser, GetPrivilegeLevel) {
 V8_ESET(NodeIpmiUser, SetPrivilegeLevel) {
     NodeIpmiUser *self = Unwrap(info.Holder());
     if (!value->IsUint32() || value->ToUint32()->Value() > 0x0f) {
-        V8_THROW(v8u::Err("Value must be an integer within the range of [0,15]"));
+        V8_THROW(v8u::TypeErr("Value must be an integer within the range of [0,15]"));
     }
     int rc = ipmi_user_set_userpriv(self->interface, IPMI_LAN_CHANNEL_E, self->id, value->ToUint32()->Value());
     if (rc) {
