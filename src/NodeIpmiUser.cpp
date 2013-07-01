@@ -33,6 +33,7 @@ V8_EGET(NodeIpmiUser, GetId) {
 } V8_GET_END()
 
 V8_ESET(NodeIpmiUser, SetName) {
+    // FIXME can't set duplicate name!!
     NodeIpmiUser *self = Unwrap(info.Holder());
     // XXX 16 should be a const
     if (!value->IsString() || value->ToString()->Length() < 1 || value->ToString()->Length() > 16) {
@@ -45,7 +46,7 @@ V8_ESET(NodeIpmiUser, SetName) {
 
 V8_EGET(NodeIpmiUser, GetPassword) {
     NodeIpmiUser *self = Unwrap(info.Holder());
-    V8_RET(String::New("<Not Implemented>"));
+    V8_RET(String::New("<Getter not implemented. May not even be possible?>"));
 } V8_GET_END()
 
 V8_ESET(NodeIpmiUser, SetPassword) {
@@ -62,10 +63,11 @@ V8_ESET(NodeIpmiUser, SetPassword) {
 
 V8_EGET(NodeIpmiUser, GetEnabled) {
     NodeIpmiUser *self = Unwrap(info.Holder());
-    V8_RET(String::New("<Not Implemented>"));
+    V8_RET(String::New("<Getter not implemented. May not even be possible?>"));
 } V8_GET_END()
 
 V8_ESET(NodeIpmiUser, SetEnabled) {
+    // FIXME: can't disable if already disabled
     NodeIpmiUser *self = Unwrap(info.Holder());
     if (!value->IsBoolean()) {
         V8_THROW(v8u::Err("Value must be boolean"));
@@ -79,7 +81,7 @@ V8_ESET(NodeIpmiUser, SetEnabled) {
 
 V8_EGET(NodeIpmiUser, GetPrivilegeLevel) {
     NodeIpmiUser *self = Unwrap(info.Holder());
-    V8_RET(String::New("<Not Implemented>"));
+    V8_RET(String::New("<Getter not implemented. May not even be possible?>"));
 } V8_GET_END()
 
 V8_ESET(NodeIpmiUser, SetPrivilegeLevel) {

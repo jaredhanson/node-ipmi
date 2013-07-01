@@ -36,16 +36,10 @@ for (var ndx=0; ndx < ipmi.users.length; ndx++) {
 }
 
 //TODO add ipmi.getUsersByName -> object mapping names to users
-console.log(ipmi.users[3])
-console.log(ipmi.users[3].name = "test")
-console.log(ipmi.users[3].password = "testfoo")
-
-console.log(ipmi.users[3].enabled)
-console.log(ipmi.users[3].enabled = false)
-console.log(ipmi.users[3].enabled)
-console.log(ipmi.users[3].enabled = true)
-console.log(ipmi.users[3].enabled)
-
-console.log(ipmi.users[3].privilegeLevel)
-console.log(ipmi.users[3].privilegeLevel=2)
-console.log(ipmi.users[3].privilegeLevel)
+uid = 6
+console.log(ipmi.users[uid])
+console.log(ipmi.users[uid].enabled = false)
+console.log(ipmi.users[uid].name = "test2")
+console.log(ipmi.users[uid].password = "testfoo")
+console.log(ipmi.users[uid].privilegeLevel=2)
+console.log(ipmi.users[uid])
