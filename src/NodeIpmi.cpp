@@ -114,19 +114,21 @@ V8_ESET(NodeIpmi, SetBootdev) {
 
 V8_EGET(NodeIpmi, GetUsers) {
     NodeIpmi *self = Unwrap(info.Holder());
-    struct user_access_rsp access;
-    int rc = ipmi_get_user_access(self->interface, 0xE, 1, &access);
-    char name[17];
     Handle<Array> list = Array::New();
+    struct user_access_rsp access;
 
+    int rc = ipmi_get_user_access(self->interface, 0xE, 1, &access);
+
+    int ndx = 0;
     for (int id = 1; id <= access.maximum_ids; id++) {
+        char name[17]; // 16+NULL must be the max length in the spec?
         rc = ipmi_get_user_name(self->interface, id, name);
-        if (rc) continue;
+        if (rc || !strlen(name)) continue;
 
         Handle<Object> user = Object::New();
         user->Set(v8u::Symbol("id"), Integer::New(id));
         user->Set(v8u::Symbol("name"), String::New(name));
-        list->Set(id, user);
+        list->Set(ndx++, user);
     }
     V8_RET(list);
 } V8_GET_END()
