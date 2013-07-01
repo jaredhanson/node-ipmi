@@ -34,3 +34,8 @@ for (var ndx=0; ndx < ipmi.users.length; ndx++) {
     user = ipmi.users[ndx]
     console.log("user: " + [user.id, user.name].join())
 }
+
+//TODO add ipmi.getUsersByName -> object mapping names to users
+console.log(ipmi.users[3])
+console.log(ipmi.users[3].name = "test")
+console.log(ipmi.users[3].password = "testfoo")
