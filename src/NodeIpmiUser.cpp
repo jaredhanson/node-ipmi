@@ -22,7 +22,7 @@ V8_EGET(NodeIpmiUser, GetName) {
     NodeIpmiUser *self = Unwrap(info.Holder());
     char name[17];
     int rc = ipmi_get_user_name(self->interface, self->id, name);
-    if (rc) V8_STHROW(v8u::Err("Error getting User's name"));
+    if (rc) V8_STHROW(v8u::Err("Error getting user's name"));
     V8_RET(String::New(name));
 } V8_GET_END()
 
@@ -39,12 +39,12 @@ V8_ESET(NodeIpmiUser, SetName) {
     }
     String::Utf8Value strval(value->ToString());
     int rc = ipmi_user_set_username(self->interface, self->id, *strval);
-    if (rc) V8_THROW(v8u::Err("Error setting User's name"));
+    if (rc) V8_THROW(v8u::Err("Error setting user's name"));
 } V8_SET_END()
 
 V8_EGET(NodeIpmiUser, GetPassword) {
     NodeIpmiUser *self = Unwrap(info.Holder());
-    V8_RET(String::New("(Password retrieval is not implemented)"));
+    V8_RET(String::New("<Not Implemented>"));
 } V8_GET_END()
 
 V8_ESET(NodeIpmiUser, SetPassword) {
@@ -56,13 +56,20 @@ V8_ESET(NodeIpmiUser, SetPassword) {
     String::Utf8Value strval(value->ToString());
     // XXX 16 should be a different const (silly extern function signature, really)
     int rc = ipmi_user_set_password(self->interface, self->id, IPMI_PASSWORD_SET_PASSWORD, *strval, strlen(*strval) > 16);
-    if (rc) V8_THROW(v8u::Err("Error setting User's password"));
+    if (rc) V8_THROW(v8u::Err("Error setting user's password"));
 } V8_SET_END()
 
-V8_CB(NodeIpmiUser::Enable) {
-    V8_RET(v8u::Err("unimp"));
-} V8_CB_END()
+V8_EGET(NodeIpmiUser, GetEnabled) {
+    NodeIpmiUser *self = Unwrap(info.Holder());
+    V8_RET(String::New("<Not Implemented>"));
+} V8_GET_END()
 
-V8_CB(NodeIpmiUser::Disable) {
-    V8_RET(v8u::Err("unimp"));
-} V8_CB_END()
+V8_ESET(NodeIpmiUser, SetEnabled) {
+    NodeIpmiUser *self = Unwrap(info.Holder());
+    if (!value->IsBoolean()) {
+        V8_THROW(v8u::Err("Value must be boolean"));
+    }
+    int op = value->ToBoolean()->Value() ? IPMI_PASSWORD_ENABLE_USER : IPMI_PASSWORD_DISABLE_USER;
+    int rc = ipmi_user_set_password(self->interface, self->id, op, NULL, false);
+    if (rc) V8_THROW(v8u::Err("Error enabling or disabling user"));
+} V8_SET_END()

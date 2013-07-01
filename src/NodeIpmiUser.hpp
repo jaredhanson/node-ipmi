@@ -16,14 +16,13 @@ class NodeIpmiUser : public node::ObjectWrap {
         V8_SSET(SetName);
         V8_SGET(GetPassword);
         V8_SSET(SetPassword);
-        static V8_SCB(Enable);
-        static V8_SCB(Disable);
+        V8_SGET(GetEnabled);
+        V8_SSET(SetEnabled);
         NODE_TYPE(NodeIpmiUser, "NodeIpmiUser") {
             V8_DEF_GET("id", GetId);
             V8_DEF_ACC("name", GetName, SetName);
             V8_DEF_ACC("password", GetPassword, SetPassword);
-            V8_DEF_CB("enable", Enable);
-            V8_DEF_CB("disable", Disable);
+            V8_DEF_ACC("enabled", GetEnabled, SetEnabled);
         } NODE_TYPE_END()
     private:
         ipmi_intf *interface;
