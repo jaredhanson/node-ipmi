@@ -1,5 +1,6 @@
 #include <sstream>
 #include "NodeIpmi.hpp"
+#include "NodeIpmiUser.hpp"
 extern "C" {
 #include "ipmitool/ipmi_chassis.h"
 #include "ipmitool/ipmi_user.h"
@@ -125,10 +126,8 @@ V8_EGET(NodeIpmi, GetUsers) {
         rc = ipmi_get_user_name(self->interface, id, name);
         if (rc || !strlen(name)) continue;
 
-        Handle<Object> user = Object::New();
-        user->Set(v8u::Symbol("id"), Integer::New(id));
-        user->Set(v8u::Symbol("name"), String::New(name));
-        list->Set(ndx++, user);
+        NodeIpmiUser *user = new NodeIpmiUser(self->interface, id);
+        list->Set(ndx++, user->Wrapped());
     }
     V8_RET(list);
 } V8_GET_END()

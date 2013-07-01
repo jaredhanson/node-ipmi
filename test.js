@@ -11,9 +11,13 @@ for (var m in ipmi) {
 }
 console.log(methods.join(","));
 
+//TODO tests:
+// mockup for power on/off etc?
+// negative:
+//  bad type for each field
+//  too short, long for user.name
+
 ipmi = new ipmi.NodeIpmi("lan")
-//console.log(i);
-//ipmi.hostname = 1;
 console.log(ipmi.hostname);
 ipmi.hostname = "192.168.0.30";
 ipmi.username = "root"
@@ -27,6 +31,6 @@ console.log(ipmi.power.status);
 console.log(ipmi.power.status);
 console.log("userlist: " + ipmi.users);
 for (var ndx=0; ndx < ipmi.users.length; ndx++) {
-    u = ipmi.users[ndx]
-    console.log("user: " + [u.id, u.name].join())
+    user = ipmi.users[ndx]
+    console.log("user: " + [user.id, user.name].join())
 }
