@@ -9,20 +9,24 @@ for (var m in ipmi) {
     console.log(m);
     }
 }
-//console.log(methods.join(","));
+console.log(methods.join(","));
 
-var i = new ipmi.NodeIpmi("lan")
+ipmi = new ipmi.NodeIpmi("lan")
 //console.log(i);
-//i.hostname = 1;
-console.log(i.hostname);
-i.hostname = "192.168.0.30";
-i.username = "root"
-i.password = "calvin"
-console.log(i.hostname);
-console.log(i.bootdev);
-i.bootdev = "pxe"
-console.log(i.bootdev);
-console.log(i.power.status);
-//console.log(i.power.off());
-console.log(i.power.status);
-console.log("userlist: " + i.user.list);
+//ipmi.hostname = 1;
+console.log(ipmi.hostname);
+ipmi.hostname = "192.168.0.30";
+ipmi.username = "root"
+ipmi.password = "calvin"
+console.log(ipmi.hostname);
+console.log(ipmi.bootdev);
+ipmi.bootdev = "pxe"
+console.log(ipmi.bootdev);
+console.log(ipmi.power.status);
+//console.log(ipmi.power.off());
+console.log(ipmi.power.status);
+console.log("userlist: " + ipmi.users);
+for (var ndx=0; ndx < ipmi.users.length; ndx++) {
+    u = ipmi.users[ndx]
+    console.log("user: " + [u.id, u.name].join())
+}

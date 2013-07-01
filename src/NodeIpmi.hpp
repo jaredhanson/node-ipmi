@@ -2,7 +2,6 @@
 #define NODEIPMI_H
 #include "v8u.hpp"
 #include "NodeIpmiPower.hpp"
-#include "NodeIpmiUser.hpp"
 extern "C" {
 #include "ipmitool/ipmi_intf.h"
 }
@@ -30,7 +29,7 @@ class NodeIpmi : public node::ObjectWrap {
         V8_SGET(GetBootdev);
         V8_SSET(SetBootdev);
         V8_SGET(GetPower);
-        V8_SGET(GetUser);
+        V8_SGET(GetUsers);
 
         NODE_TYPE(NodeIpmi, "NodeIpmi") {
             V8_DEF_ACC("hostname", GetHostname, SetHostname);
@@ -38,11 +37,10 @@ class NodeIpmi : public node::ObjectWrap {
             V8_DEF_ACC("password", GetPassword, SetPassword);
             V8_DEF_ACC("bootdev", GetBootdev, SetBootdev);
             V8_DEF_GET("power", GetPower);
-            V8_DEF_GET("user", GetUser);
+            V8_DEF_GET("users", GetUsers);
         } NODE_TYPE_END()
     private:
         ipmi_intf *interface;
         NodeIpmiPower *power;
-        NodeIpmiUser *user;
 };
 #endif

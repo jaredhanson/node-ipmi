@@ -1,5 +1,6 @@
 #include "NodeIpmi.hpp"
 #include "NodeIpmiPower.hpp"
+#include "NodeIpmiUser.hpp"
 
 // some globals needed by ipmitool
 int verbose = 0;

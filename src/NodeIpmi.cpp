@@ -2,6 +2,9 @@
 #include "NodeIpmi.hpp"
 extern "C" {
 #include "ipmitool/ipmi_chassis.h"
+#include "ipmitool/ipmi_user.h"
+int ipmi_get_user_access(struct ipmi_intf *intf, uint8_t channel_number, uint8_t user_id, struct user_access_rsp *user_access);
+int ipmi_get_user_name(struct ipmi_intf *intf, uint8_t user_id, char *user_name);
 }
 V8_POST_TYPE(NodeIpmi);
 
@@ -17,23 +20,16 @@ NodeIpmi::NodeIpmi(const char *interface_name) {
         V8_THROW(v8u::Err(msg.str().c_str()));
     }
     power = new NodeIpmiPower(interface);
-    user = new NodeIpmiUser(interface);
 }
 
 NodeIpmi::~NodeIpmi() {
     delete power;
-    delete user;
     interface->close(interface);
 }
 
 V8_EGET(NodeIpmi, GetPower) {
     NodeIpmi* self = Unwrap(info.Holder());
     V8_RET(self->power->Wrapped());
-} V8_GET_END()
-
-V8_EGET(NodeIpmi, GetUser) {
-    NodeIpmi* self = Unwrap(info.Holder());
-    V8_RET(self->user->Wrapped());
 } V8_GET_END()
 
 V8_EGET(NodeIpmi, GetHostname) {
@@ -115,3 +111,22 @@ V8_ESET(NodeIpmi, SetBootdev) {
     char *argv[] = {"bootdev", *strval};
     ipmi_chassis_main(self->interface, sizeof(argv)/sizeof(*argv), argv);
 } V8_SET_END()
+
+V8_EGET(NodeIpmi, GetUsers) {
+    NodeIpmi *self = Unwrap(info.Holder());
+    struct user_access_rsp access;
+    int rc = ipmi_get_user_access(self->interface, 0xE, 1, &access);
+    char name[17];
+    Handle<Array> list = Array::New();
+
+    for (int id = 1; id <= access.maximum_ids; id++) {
+        rc = ipmi_get_user_name(self->interface, id, name);
+        if (rc) continue;
+
+        Handle<Object> user = Object::New();
+        user->Set(v8u::Symbol("id"), Integer::New(id));
+        user->Set(v8u::Symbol("name"), String::New(name));
+        list->Set(id, user);
+    }
+    V8_RET(list);
+} V8_GET_END()
