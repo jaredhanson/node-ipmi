@@ -8,19 +8,16 @@ wrapInterface = (obj) ->
     interfaceWrapper = {}
 
     wrappers = {
-        hostname: 'default'
-        username: 'default'
-        password: 'default'
-        power: 'default'
         users:
             get: () -> obj.users
             set: (value) -> obj.users = value
     }
 
     wrap = (x) ->
-        if wrappers[x] is 'default'
+        if not wrappers[x]?
             get = () -> obj[x]
             set = (value) -> obj[x] = value
+            #console.log "wrapping #{x} with default"
         else
             get = wrappers[x].get
             set = wrappers[x].set
@@ -34,7 +31,7 @@ wrapInterface = (obj) ->
             
 
     # GOTCHA: 'x' doesn't have the right scope in generated JS if you try to inline the wrapit() function
-    wrap(x) for x in Object.keys wrappers
+    wrap(x) for x in Object.keys obj
 
     #Object.defineProperty(interfaceWrapper, 'power',
     #    get : () -> obj['power']

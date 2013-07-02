@@ -2,10 +2,10 @@ should = require 'should'
 ipmi = require '..'
 
 describe 'general tests', ->
-    intf = ipmi.init('lan')
-    intf.hostname = "192.168.0.30"
-    intf.username = "root"
-    intf.password = "calvin"
+    intf = ipmi.init 'lan'
+    intf.hostname = '192.168.0.30'
+    intf.username = 'root'
+    intf.password = 'calvin'
     it 'should return power status', ->
         intf.power.status.should.eql 'on'
     it 'bootdev', ->
