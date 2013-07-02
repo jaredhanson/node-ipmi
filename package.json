@@ -14,15 +14,19 @@
         "url": "https://github.com/elitak/node-ipmi.git"
     },
     "scripts": {
+        "test": "mocha --compilers coffee:coffee-script",
         "preinstall": "sed -i 's/^static //' deps/ipmitool/lib/ipmi_user.c; node-gyp rebuild"
     },
-    "dependencies": {},
+    "dependencies": {
+        "coffee-script": "*"
+    },
     "devDependencies": {
+        "mocha": "*",
+        "should": "*"
     },
     "contributors": [
         { "name": "Eric Litak", "email": "elitak@gmail.com" }
     ],
-    "main": "index",
     "gypfile": true,
     "engines": { "node": ">= 0.10.12" }
 }
