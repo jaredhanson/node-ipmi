@@ -2,15 +2,18 @@ should = require 'should'
 ipmi = require '..'
 
 describe 'general tests', ->
-    intf = new ipmi.NodeIpmi 'lan'
+    intf = ipmi.init('lan')
     intf.hostname = "192.168.0.30"
     intf.username = "root"
     intf.password = "calvin"
     it 'should return power status', ->
         intf.power.status.should.eql 'on'
     it 'bootdev', ->
-        ipmi.bootdev = 'pxe'
-        ipmi.bootdev.should.eql 'pxe'
+        intf.bootdev = 'pxe'
+        intf.bootdev.should.eql 'pxe'
+    it 'users', ->
+        console.log intf
+        console.log intf.users
         ##console.log(ipmi.power.off());
         #console.log(ipmi.power.status);
         #console.log("userlist: " + ipmi.users);
