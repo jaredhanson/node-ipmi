@@ -1,4 +1,3 @@
-#include <sstream>
 #include "NodeIpmiUser.hpp"
 V8_POST_TYPE(NodeIpmiUser);
 extern "C" {
@@ -33,11 +32,10 @@ V8_EGET(NodeIpmiUser, GetId) {
 } V8_GET_END()
 
 V8_ESET(NodeIpmiUser, SetName) {
-    // FIXME can't set duplicate name!!
     NodeIpmiUser *self = Unwrap(info.Holder());
     // XXX 16 should be a const
-    if (!value->IsString() || value->ToString()->Length() < 1 || value->ToString()->Length() > 16) {
-        V8_THROW(v8u::Err("Value must be a string with length within the range of [1,16]"));
+    if (!value->IsString() || value->ToString()->Length() < 0 || value->ToString()->Length() > 16) {
+        V8_THROW(v8u::Err("Value must be a string with length within the range of [0,16]"));
     }
     String::Utf8Value strval(value->ToString());
     int rc = ipmi_user_set_username(self->interface, self->id, *strval);

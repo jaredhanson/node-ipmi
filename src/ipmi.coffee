@@ -1,5 +1,4 @@
 ipmi = require '../build/Release/ipmi'
-aop = require 'node-aop'
 moduleWrapper = {}
 module.exports = moduleWrapper
 
@@ -9,36 +8,37 @@ wrapObject = (obj) ->
     wrapped = {}
     wrappers =
         users:
-            get: () ->
+            get: ->
                 users = {}
-                users[x.name] = x for x in obj.users when x.name?
+                (users[x.name] = x) for x in obj.users when x.name isnt ''
                 users.add = (name) ->
-                    #used = (users[k] for k in Object.keys users) when users[k].name isnt '')
+                    if name in ['add', 'delete']
+                        throw Error "Don't use name: #{name}"
                     # XXX slot id 1 can never be used??
-                    unused = (users[k] for k in (Object.keys users)[1..] when users[k].name is '')
-                    #console.log "used: #{x.name}" for x in used
-                    console.log "unused: #{x.name}" for x in unused
+                    unused = (obj.users[k] for k in (Object.keys obj.users)[1..] when typeof obj.users[k] isnt 'function' and obj.users[k].name is '')
                     if users[name]?
-                        throw 'User already exists'
-                    # FIXME this condition is never true??
+                        throw Error 'User already exists'
                     if unused.length is 0
-                        throw 'Empty user slot unavailable'
-                    console.log "using slot ##{unused[0].id}"
+                        throw Error 'Empty user slot unavailable'
                     unused[0].name = name
+                users.delete = (name) ->
+                    if name in ['add', 'delete']
+                        throw Error "Don't use name: #{name}"
+                    if not users[name]?
+                        throw Error 'User not found'
+                    users[name].name = ''
                 users
-            set: (value) -> throw 'setting users not allowed'
+            set: (_) -> throw 'setting users not allowed'
 
     wrap = (x) ->
         if not wrappers[x]?
             accessors =
-                get: () -> obj[x]
+                get: -> obj[x]
                 set: (value) -> obj[x] = value
-            #console.log "wrapping #{x} with default"
         else
             accessors =
                 get: wrappers[x].get
                 set: wrappers[x].set
-        #aop.before accessors, 'get', () -> console.log 'hi'
         Object.defineProperty(wrapped, x,
             get: accessors.get
             set: accessors.set

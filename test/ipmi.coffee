@@ -7,32 +7,28 @@ describe 'general tests', ->
     intf.username = 'root'
     intf.password = 'calvin'
     it 'should return power status', ->
-        intf.power.status.should.eql 'on'
+        intf.power.status.should.eql 'off'
     it 'bootdev', ->
         intf.bootdev = 'pxe'
         #intf.bootdev.should.eql 'pxe'
-    it 'users', ->
-        #console.log intf
-        #console.log intf.users
-        #console.log intf.users.root
-        #console.log intf.users.add 'root' #should throw exc
-        console.log intf.users.add 'user13'
-        ##console.log(ipmi.power.off());
-        #console.log(ipmi.power.status);
-        #console.log("userlist: " + ipmi.users);
-        #for (var ndx=0; ndx < ipmi.users.length; ndx++) {
-        #    user = ipmi.users[ndx]
-        #    console.log("user: " + [user.id, user.name].join())
-        #}
-
-        #//TODO add ipmi.getUsersByName -> object mapping names to users
-        #uid = 6
-        #console.log(ipmi.users[uid])
-        #console.log(ipmi.users[uid].enabled = false)
-        #console.log(ipmi.users[uid].name = "test2")
-        #console.log(ipmi.users[uid].password = "testfoo")
-        #console.log(ipmi.users[uid].privilegeLevel=2)
-        #console.log(ipmi.users[uid])
+    it 'failing user add and delete', ->
+        (-> intf.users.add 'root').should.throw
+        (-> intf.users.add 'add').should.throw
+        (-> intf.users.add 'delete').should.throw
+        (-> intf.users.delete 'add').should.throw
+        (-> intf.users.delete 'delete').should.throw
+    it 'add+rem users', ->
+        intf.users.add('test12')#.should.eql 'test12'
+        console.log intf.users.delete 'test12'
+    it 'power tests', ->
+        #intf.power.off
+        intf.power.status
+    it 'user settings', ->
+        name = 'ipmi'
+        intf.users[name].enabled = false
+        intf.users[name].enabled = true
+        intf.users[name].password = 'testfoo'
+        intf.users[name].privilegeLevel = 2
 
 #TODO tests:
 # mockup for power on/off etc?
