@@ -12,25 +12,23 @@ describe 'general tests', ->
         intf.bootdev = 'pxe'
         #intf.bootdev.should.eql 'pxe'
     it '- user prohibited names', ->
-        (-> intf.users.add 'add').should.throw
-        (-> intf.users.add 'delete').should.throw
-        (-> intf.users.delete 'add').should.throw
-        (-> intf.users.delete 'delete').should.throw
+        (-> intf.users.add 'add').should.throw()
+        (-> intf.users.add 'delete').should.throw()
+        (-> intf.users.delete 'add').should.throw()
+        (-> intf.users.delete 'delete').should.throw()
     it '- user duplicate name', ->
-        (-> intf.users.add 'root').should.throw
+        (-> intf.users.add 'root').should.throw()
+    it 'user long names', ->
+        (-> intf.users.add ([1..15].map -> 'x').join '').should.not.throw()
+        (-> intf.users.delete ([1..15].map -> 'x').join '').should.not.throw()
     it '- user long names', ->
-        (-> intf.users.add '12345678901234567').should.throw
-    it 'user max length name', ->
-        intf.users.add '123456789012345'
-        intf.users.delete '123456789012345'
+        (-> intf.users.add ([1.16].map -> 'x').join '').should.throw()
     it '- user long password', ->
-        (-> intf.users.ipmi.password '123456789012345678901').should.throw
-    it 'user max length passwords', ->
-        # 16 and 20 lengths have different wire formats
-        (-> intf.users.ipmi.password '1234567890123456').should.throw
-        (-> intf.users.ipmi.password '12345678901234567890').should.throw
-    it 'user max length passwords', ->
-    it 'user max length passwords', ->
+        (-> intf.users.ipmi.password = ([1..30].map -> 'x').join '').should.throw()
+    it 'user long password', ->
+        # passwords of length 16 and 20 have different wire formats
+        (-> intf.users.ipmi.password = ([1..16].map -> 'x').join '').should.not.throw()
+        (-> intf.users.ipmi.password = ([1..20].map -> 'x').join '').should.not.throw()
     it 'add+rem users', ->
         intf.users.add('test12')#.should.eql 'test12'
         intf.users.delete 'test12'
