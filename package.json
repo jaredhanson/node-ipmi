@@ -18,7 +18,8 @@
         "preinstall": "sed -i 's/^static //' deps/ipmitool/lib/ipmi_user.c; node-gyp rebuild"
     },
     "dependencies": {
-        "coffee-script": "*"
+        "coffee-script": "*",
+        "node-aop": "*"
     },
     "devDependencies": {
         "mocha": "*",

@@ -122,13 +122,10 @@ V8_EGET(NodeIpmi, GetUsers) {
     int rc = ipmi_get_user_access(self->interface, IPMI_LAN_CHANNEL_E, 1, &access);
 
     int ndx = 0;
-    // XXX HACK until can extend array to allow for 0 position to be empty or something
-    list->Set(ndx++, String::New("DO NOT USE THIS INDEX"));
     for (int id = 1; id <= access.maximum_ids; id++) {
         char name[17]; // 16+NULL must be the max length in the spec?
         rc = ipmi_get_user_name(self->interface, id, name);
-        //if (rc || !strlen(name)) continue;
-        //if (rc) continue;
+        if (rc) V8_STHROW(v8u::Err("Problem fetching username"));
 
         NodeIpmiUser *user = new NodeIpmiUser(self->interface, id);
         list->Set(ndx++, user->Wrapped());

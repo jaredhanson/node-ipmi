@@ -10,10 +10,13 @@ describe 'general tests', ->
         intf.power.status.should.eql 'on'
     it 'bootdev', ->
         intf.bootdev = 'pxe'
-        intf.bootdev.should.eql 'pxe'
+        #intf.bootdev.should.eql 'pxe'
     it 'users', ->
-        console.log intf
-        console.log intf.users
+        #console.log intf
+        #console.log intf.users
+        #console.log intf.users.root
+        #console.log intf.users.add 'root' #should throw exc
+        console.log intf.users.add 'user13'
         ##console.log(ipmi.power.off());
         #console.log(ipmi.power.status);
         #console.log("userlist: " + ipmi.users);
