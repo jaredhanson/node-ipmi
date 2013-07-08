@@ -4,3 +4,6 @@
 [submodule "deps/v8u"]
 	path = deps/v8u
 	url = https://github.com/jmendeth/v8u.git
+[submodule "deps/freeipmi"]
+	path = deps/freeipmi
+	url = https://github.com/elitak/freeipmi.git
