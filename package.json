@@ -15,7 +15,7 @@
     },
     "scripts": {
         "test": "mocha --compilers coffee:coffee-script",
-        "preinstall": "sed -i 's/^static //' deps/ipmitool/lib/ipmi_user.c && cd deps/ipmitool && ./bootstrap && ./configure && cd ../.. && node-gyp rebuild"
+        "preinstall": "sed -i 's/^static //' deps/ipmitool/lib/ipmi_user.c && cd deps/ipmitool && chmod +x bootstrap configure && ./bootstrap && ./configure && cd ../.. && node-gyp rebuild"
     },
     "dependencies": {
         "coffee-script": "*"
